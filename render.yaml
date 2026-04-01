@@ -1,0 +1,40 @@
+services:
+  # Backend Node.js Service
+  - type: web
+    name: imagerevive-backend
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://imagerevive-frontend.onrender.com
+
+  # Frontend Vite Static Site
+  - type: web
+    name: imagerevive-frontend
+    runtime: static
+    rootDir: .
+    buildCommand: npm install --include=dev && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_ANON_KEY
+        sync: false
+      - key: VITE_API_URL
+        value: https://imagerevive-backend.onrender.com
+      - key: NODE_ENV
+        value: development # Ensure dev variables install for Vite
+      - key: NODE_VERSION
+        value: 20
