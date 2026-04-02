@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
-    allowedHosts: ["jadwiga-unrevoked-lynelle.ngrok-free.dev"],
+    allowedHosts: ["junita-crumbly-abysmally.ngrok-free.dev"],
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

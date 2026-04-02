@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Camera } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import OrbitelyLogo from "@/components/Orbitely.png";
 
 const Login = () => {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -89,12 +89,14 @@ const Login = () => {
     <div className="min-h-screen flex">
       
       {/* Desktop Left Section */}
-      <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-16 flex-col justify-between">
+      <div className="hidden lg:flex w-1/2 bg-gradient-to-br from-primary to-primary/80 text-white p-16 flex-col justify-between">
         <div className="flex items-center gap-3 text-xl font-semibold">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <Camera className="h-5 w-5 text-white" />
-          </div>
-          ImageRevive Pro
+          <img 
+            src={OrbitelyLogo} 
+            alt="Orbitely" 
+            className="w-10 h-10 rounded-lg"
+          />
+          Orbitely
         </div>
 
         <div>
@@ -118,8 +120,12 @@ const Login = () => {
 
           {/* Logo for mobile */}
           <div className="lg:hidden flex items-center justify-center gap-2 mb-6">
-            <Camera className="h-6 w-6 text-primary" />
-            <span className="font-semibold">ImageRevive Pro</span>
+            <img 
+              src={OrbitelyLogo} 
+              alt="Orbitely" 
+              className="w-6 h-6 rounded-lg"
+            />
+            <span className="font-semibold">Orbitely</span>
           </div>
 
           <div className="text-center mb-6">

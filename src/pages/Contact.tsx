@@ -28,7 +28,7 @@ const Contact = () => {
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           <div className="space-y-6">
             {[
-              { icon: Mail, title: "Email Us", detail: "support@imagerevivepro.com", desc: "We respond within 2 hours" },
+              { icon: Mail, title: "Email Us", detail: "support@orbitely.com", desc: "We respond within 2 hours" },
               { icon: MessageCircle, title: "Live Chat", detail: "Available 9am-6pm EST", desc: "Instant help from our team" },
               { icon: MapPin, title: "Headquarters", detail: "San Francisco, CA", desc: "Global team, local support" },
             ].map((item, i) => (

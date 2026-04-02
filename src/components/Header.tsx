@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Camera } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 import { useNavigate } from "react-router-dom";
+import OrbitelyLogo from "@/components/Orbitely.png";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,11 +61,13 @@ const Header = () => {
           }`}
         >
           <a href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 gradient-primary rounded-lg flex items-center justify-center">
-              <Camera className="h-4 w-4 text-primary-foreground" />
-            </div>
+            <img 
+              src={OrbitelyLogo} 
+              alt="Orbitely" 
+              className="w-8 h-8 rounded-lg"
+            />
             <span className="text-lg font-bold font-display">
-              ImageRevive Pro
+              Orbitely
             </span>
           </a>
 

@@ -6,37 +6,37 @@
 
 @layer base {
   :root {
-    --background: 0 0% 4%;      /* #0a0a0a */
-    --foreground: 0 0% 98%;     /* #fafafa */
+    --background: 0 0% 100%;      /* White background */
+    --foreground: 214 21% 15%;      /* #30364F - dark blue for text */
 
-    --card: 0 0% 6%;            /* #0f0f0f */
-    --card-foreground: 0 0% 95%;
+    --card: 0 0% 98%;              /* F0F0DB - very light off-white */
+    --card-foreground: 214 21% 15%; /* #30364F - dark blue for card text */
 
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 0 0% 98%;            /* F0F0DB - very light off-white */
+    --popover-foreground: 214 21% 15%;
 
-    --primary: 0 0% 98%;        /* White buttons */
-    --primary-foreground: 0 0% 4%; /* Near black text on buttons */
+    --primary: 214 21% 31%;        /* #30364F - dark blue primary */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
 
-    --secondary: 0 0% 12%;      /* Dark gray */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 214 21% 67%;      /* ACBAC4 - light gray-blue */
+    --secondary-foreground: 214 21% 15%; /* Dark blue text on secondary */
 
-    --muted: 0 0% 10%;          /* Dark gray */
-    --muted-foreground: 0 0% 60%; /* Medium gray for secondary text */
+    --muted: 214 21% 85%;         /* E1D9BC - beige for muted backgrounds */
+    --muted-foreground: 214 21% 45%; /* Medium dark blue for secondary text */
 
-    --accent: 0 0% 15%;         /* Subdued highlight */
-    --accent-foreground: 0 0% 98%;
+    --accent: 214 21% 31%;         /* #30364F - dark blue accent */
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 14%;         /* Subtle dark separators */
-    --input: 0 0% 14%;
-    --ring: 0 0% 80%;
+    --border: 214 21% 73%;         /* ACBAC4 - light gray-blue borders */
+    --input: 214 21% 73%;
+    --ring: 214 21% 31%;           /* #30364F - dark blue focus ring */
 
-    --radius: 0rem;             /* Luxury design often uses sharp corners or 2px max radius */
+    --radius: 0.5rem;            /* Slightly rounded corners */
 
-    --surface-elevated: 0 0% 8%;
+    --surface-elevated: 0 0% 98%;
     --shadow-soft: 0 0% 0%;
 
     --success: 152 60% 42%;
@@ -68,28 +68,28 @@
 
 @layer utilities {
   .luxury-border {
-    @apply border border-white/10;
+    @apply border border-gray-200;
   }
 
   .luxury-card {
-    @apply bg-zinc-950/50 backdrop-blur-md luxury-border;
+    @apply bg-white/90 backdrop-blur-md luxury-border shadow-sm;
   }
   
   /* Restored missing utility classes for other pages to function properly */
   .glass-card {
-    @apply bg-zinc-900/40 backdrop-blur-md border border-white/5 shadow-2xl;
+    @apply bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg;
   }
 
   .gradient-primary {
-    @apply bg-white text-black border border-white hover:bg-zinc-200 transition-colors;
+    @apply bg-primary text-primary-foreground hover:opacity-90 transition-opacity shadow-md;
   }
 
   .gradient-text {
-    @apply text-white;
+    @apply text-primary;
   }
 
   .pill-nav {
-    @apply rounded-none bg-black border border-white/20;
+    @apply rounded-lg bg-white border border-gray-200 shadow-sm;
   }
 
   @keyframes fadeIn {
@@ -113,6 +113,162 @@
   .stagger-6 { animation-delay: 0.6s; opacity: 0; animation-fill-mode: forwards; }
 
   .before-after-slider {
-    @apply relative overflow-hidden bg-zinc-900 border border-white/5;
+    @apply relative overflow-hidden bg-white border border-gray-200;
+  }
+
+  /* 3D Animation Keyframes */
+  @keyframes left {
+    100% {
+      margin-left: -54000px;
+    }
+  }
+
+  @keyframes back {
+    100% {
+      margin-left: -54870px;
+    }
+  }
+
+  @keyframes right {
+    100% {
+      margin-left: -55740px;
+    }
+  }
+
+  @keyframes filter-animation {
+    0%, 100% {
+      filter: hue-rotate(0deg);
+    }
+    50% {
+      filter: hue-rotate(100deg);
+    }
+  }
+
+  @keyframes zoom-in {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(2.5);
+    }
+  }
+
+  @keyframes blur {
+    0% {
+      filter: blur(0px);
+    }
+    100% {
+      filter: blur(3px);
+    }
+  }
+
+  @keyframes brightness {
+    0% {
+      filter: brightness(1) contrast(1);
+    }
+    100% {
+      filter: brightness(0.8) contrast(1.3);
+    }
+  }
+
+  @keyframes text-glow {
+    0%, 100% {
+      text-shadow: 0 0 5px rgba(255, 158, 122, 0.2);
+    }
+    50% {
+      text-shadow: 0 0 20px rgba(255, 158, 122, 0.5);
+    }
+  }
+
+  /* 3D Animation Styles */
+  .hero-section {
+    @apply w-full overflow-hidden bg-background;
+  }
+
+  .hero-section .container {
+    @apply relative w-full h-screen flex items-center justify-center;
+  }
+
+  .hero-section .content {
+    @apply relative;
+  }
+
+  .hero-section .container-full {
+    @apply absolute inset-0 w-full h-full;
+  }
+
+  .hero-section .animated.hue {
+    @apply absolute inset-0 w-full h-full;
+    animation: filter-animation 10s ease-in-out infinite;
+  }
+
+  .hero-section .backgroundImage {
+    @apply absolute inset-0 w-full h-full object-cover;
+  }
+
+  .hero-section .boyImage {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-auto h-full object-contain;
+    z-index: 10;
+  }
+
+  .hero-section .container {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px];
+    transform-style: preserve-3d;
+    animation: left 20s linear infinite;
+  }
+
+  .hero-section .container-reflect {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px];
+    transform-style: preserve-3d;
+    animation: back 20s linear infinite;
+  }
+
+  .hero-section .cube {
+    @apply relative w-full h-full;
+    transform-style: preserve-3d;
+    animation: zoom-in 8s ease-in-out infinite, blur 3s ease-in-out infinite, brightness 5s ease-in-out infinite;
+  }
+
+  .hero-section .cube .face {
+    @apply absolute inset-0 flex items-center justify-center p-4 border border-border;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    font-size: 8px;
+    line-height: 1.2;
+    overflow: hidden;
+  }
+
+  .hero-section .cube .face.top {
+    transform: rotateX(90deg) translateZ(100px);
+  }
+
+  .hero-section .cube .face.bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+  }
+
+  .hero-section .cube .face.left {
+    transform: rotateY(-90deg) translateZ(100px);
+  }
+
+  .hero-section .cube .face.right {
+    transform: rotateY(90deg) translateZ(100px);
+  }
+
+  .hero-section .cube .face.front {
+    transform: translateZ(100px);
+  }
+
+  .hero-section .cube .face.back {
+    transform: rotateY(180deg) translateZ(100px);
+  }
+
+  .hero-section .cube .face.text {
+    @apply text-foreground text-center;
+    animation: text-glow 2s ease-in-out infinite;
+  }
+
+  /* Perspective utility */
+  .perspective-1000 {
+    perspective: 1000px;
   }
 }

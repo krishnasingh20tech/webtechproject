@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Users, Globe, Award, Heart } from "lucide-react";
-import dashboardBg from "@/assests/dashboard_bg.png";
 
 const stats = [
   { value: "50K+", label: "Photos Enhanced" },
@@ -12,20 +11,12 @@ const stats = [
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-black text-white relative selection:bg-white selection:text-black">
-      {/* Ambient background glow & studio image */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <img src={dashboardBg} alt="Background Studio" className="w-full h-full object-cover opacity-60 transform scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black"></div>
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-white/10 blur-[120px] rounded-full mix-blend-screen opacity-20" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-white/10 blur-[150px] rounded-full mix-blend-screen opacity-20" />
-      </div>
-
+    <div className="min-h-screen bg-background text-foreground relative selection:bg-primary selection:text-primary-foreground">
       <div className="relative z-10">
         <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="max-w-3xl mx-auto text-center mb-16 animate-slide-up">
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">About ImageRevive Pro</h1>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold mb-6">About Orbitely</h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
             We're a global team of professional retouchers and photo editors dedicated to helping photographers, businesses, and individuals bring out the best in their images.
           </p>
@@ -44,7 +35,7 @@ const About = () => {
           <div className="animate-slide-up">
             <h2 className="text-3xl font-display font-bold mb-4">Our Mission</h2>
             <p className="text-muted-foreground leading-relaxed mb-4">
-              At ImageRevive Pro, we believe every photo tells a story. Our mission is to help you tell that story in the most compelling way possible, with professional-grade enhancements that elevate your visual content.
+              At Orbitely, we believe every photo tells a story. Our mission is to help you tell that story in the most compelling way possible, with professional-grade enhancements that elevate your visual content.
             </p>
             <p className="text-muted-foreground leading-relaxed">
               Whether you're a real estate agent looking to showcase properties, a photographer refining portraits, or a business needing polished product images—we have the expertise to deliver exceptional results.

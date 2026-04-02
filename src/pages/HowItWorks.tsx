@@ -2,7 +2,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { UserPlus, Upload, CreditCard, Wand2, Download, ArrowRight } from "lucide-react";
-import dashboardBg from "@/assests/dashboard_bg.png";
 
 const steps = [
   { icon: UserPlus, title: "Sign Up & Log In", desc: "Create your free account in seconds. No credit card required to get started." },
@@ -14,15 +13,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <div className="min-h-screen bg-black text-white relative selection:bg-white selection:text-black">
-      {/* Ambient background glow & studio image */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <img src={dashboardBg} alt="Background Studio" className="w-full h-full object-cover opacity-60 transform scale-105" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/70 to-black"></div>
-        <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-white/10 blur-[120px] rounded-full mix-blend-screen opacity-20" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-white/10 blur-[150px] rounded-full mix-blend-screen opacity-20" />
-      </div>
-
+    <div className="min-h-screen bg-background text-foreground relative selection:bg-primary selection:text-primary-foreground">
       <div className="relative z-10">
         <Header />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">

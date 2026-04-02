@@ -21,7 +21,7 @@ const Terms = () => {
           <section>
             <h2 className="text-2xl font-bold mb-4">Agreement to Terms</h2>
             <p className="text-muted-foreground">
-               By accessing or using ImageRevive Pro's website and services, you agree to be bound by these Terms of Service. 
+               By accessing or using Orbitely's website and services, you agree to be bound by these Terms of Service. 
               If you disagree with any part of these terms, you may not access our services.
             </p>
           </section>
@@ -123,7 +123,7 @@ const Terms = () => {
               If you have any questions about these Terms of Service, please contact us at:
             </p>
             <p className="text-muted-foreground mt-4">
-              Email: legal@imagerevivepro.com<br />
+              Email: legal@orbitely.com<br />
               Address: San Francisco, CA
             </p>
           </section>
