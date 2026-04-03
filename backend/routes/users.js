@@ -10,18 +10,28 @@ router.get("/profile", verifyToken, async (req, res) => {
     // req.user is extracted from the JWT in auth middleware
     const userId = req.user.id;
     console.log("Fetching profile for userId:", userId);
-    
+
     let result = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
     console.log("Database query result:", result.rows.length, "rows found");
 
-    const user = result.rows[0];
-    
+    let user = result.rows[0];
+
     if (!user) {
-      // In a strict environment, if user doesn't exist in our public table
-      // (perhaps because the trigger failed or hadn't run), we'd return a 404.
-      // Or we can manually insert them here if they just signed up:
-      console.log("User not found in database for id:", userId);
-      return res.status(404).json({ error: "User not found in public.users table" });
+      console.log("User not found in database, creating implicitly for id:", userId);
+      try {
+        const { data: newUser, error } = await db.supabase.from('users').insert({
+          id: userId,
+          email: req.user.email,
+          role: 'user',
+          total_uploads: 0
+        }).select().single();
+
+        if (error) throw error;
+        user = newUser;
+      } catch (err) {
+        console.error("Auto-insert failed:", err);
+        return res.status(500).json({ error: "Failed to initialize new user profile" });
+      }
     }
 
     const freeUploadsRemaining = Math.max(0, 5 - user.total_uploads);

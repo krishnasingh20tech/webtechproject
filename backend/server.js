@@ -34,11 +34,11 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
   // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-    
+
     // Check if metadata exists
     if (!session.metadata) {
-       console.error("Metadata is missing from session.");
-       return res.status(200).send("No metadata, skipped.");
+      console.error("Metadata is missing from session.");
+      return res.status(200).send("No metadata, skipped.");
     }
 
     const { userId, tier } = session.metadata;
@@ -67,26 +67,26 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
       let parsedPaths = [];
       try {
         parsedPaths = JSON.parse(filePathsJSON || '[]');
-      } catch(e) {
-         console.error("Failed to parse filePathsJSON:", filePathsJSON);
+      } catch (e) {
+        console.error("Failed to parse filePathsJSON:", filePathsJSON);
       }
 
       if (parsedPaths.length > 0) {
-         // Insert uploads into our database
-         for (let i = 0; i < parsedPaths.length; i++) {
-           await db.query(
-             "INSERT INTO uploads (user_id, file_path, tier, instructions) VALUES ($1, $2, $3, $4)",
-             [userId, parsedPaths[i], tier || "Basic", instructions || ""],
-           );
-         }
-         
-         // Update total_uploads
-         await db.query(
-           "UPDATE users SET total_uploads = total_uploads + $1 WHERE id = $2",
-           [parsedPaths.length, userId],
-         );
-         
-         console.log(`Successfully processed order for user ${userId} with payment ${session.amount_total/100}`);
+        // Insert uploads into our database
+        for (let i = 0; i < parsedPaths.length; i++) {
+          await db.query(
+            "INSERT INTO uploads (user_id, file_path, tier, instructions) VALUES ($1, $2, $3, $4)",
+            [userId, parsedPaths[i], tier || "Basic", instructions || ""],
+          );
+        }
+
+        // Update total_uploads
+        await db.query(
+          "UPDATE users SET total_uploads = total_uploads + $1 WHERE id = $2",
+          [parsedPaths.length, userId],
+        );
+
+        console.log(`Successfully processed order for user ${userId} with payment ${session.amount_total / 100}`);
       }
     } catch (err) {
       console.error("Error processing successful payment data:", err);
@@ -104,14 +104,18 @@ app.use("/api/uploads", uploadsRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/payment", stripeRoute);
 
-const server = app.listen(PORT, () => {
-  console.log(`Express server running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+  const server = app.listen(PORT, () => {
+    console.log(`Express server running on port ${PORT}`);
+  });
 
-server.on('error', (e) => {
-  console.error("Server error:", e);
-  if (e.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use!`);
-    process.exit(1);
-  }
-});
+  server.on('error', (e) => {
+    console.error("Server error:", e);
+    if (e.code === 'EADDRINUSE') {
+      console.error(`Port ${PORT} is already in use!`);
+      process.exit(1);
+    }
+  });
+}
+
+module.exports = app;
