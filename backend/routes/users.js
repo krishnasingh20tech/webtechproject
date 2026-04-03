@@ -9,8 +9,10 @@ router.get("/profile", verifyToken, async (req, res) => {
   try {
     // req.user is extracted from the JWT in auth middleware
     const userId = req.user.id;
+    console.log("Fetching profile for userId:", userId);
     
     let result = await db.query("SELECT * FROM users WHERE id = $1", [userId]);
+    console.log("Database query result:", result.rows.length, "rows found");
 
     const user = result.rows[0];
     
@@ -18,6 +20,7 @@ router.get("/profile", verifyToken, async (req, res) => {
       // In a strict environment, if user doesn't exist in our public table
       // (perhaps because the trigger failed or hadn't run), we'd return a 404.
       // Or we can manually insert them here if they just signed up:
+      console.log("User not found in database for id:", userId);
       return res.status(404).json({ error: "User not found in public.users table" });
     }
 
@@ -29,8 +32,9 @@ router.get("/profile", verifyToken, async (req, res) => {
       totalUploads: user.total_uploads,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error fetching user profile" });
+    console.error("Error in /profile route:", error.message);
+    console.error("Full error:", error);
+    res.status(500).json({ error: "Server error fetching user profile", details: error.message });
   }
 });
 

@@ -19,58 +19,92 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (isSignUp) {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: name },
-        },
-      });
+    console.log("Login attempt:", { email, isSignUp });
+    console.log("Supabase URL:", import.meta.env.VITE_SUPABASE_URL);
 
-      if (error) {
-        alert(error.message);
+    try {
+      if (isSignUp) {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: name },
+          },
+        });
+
+        if (error) {
+          console.error("Signup error:", error);
+          alert(error.message);
+          setLoading(false);
+          return;
+        }
+
+        alert("Check your email to confirm signup.");
         setLoading(false);
-        return;
-      }
-
-      alert("Check your email to confirm signup.");
-      setLoading(false);
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        alert(error.message);
-        setLoading(false);
-        return;
-      }
-
-      // Get session token
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      const token = session?.access_token;
-
-      // Fetch user role from backend
-      const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const profile = await res.json();
-      console.log("PROFILE RESPONSE:", profile);
-      console.log("ROLE:", profile?.user?.role);
-
-      // Redirect based on role
-      if (profile.user.role === "superadmin" || profile.user.role === "admin") {
-        navigate("/admin");
       } else {
-        navigate("/dashboard");
+        console.log("Attempting sign in...");
+        const { error, data } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error) {
+          console.error("Login error:", error);
+          alert(error.message);
+          setLoading(false);
+          return;
+        }
+
+        console.log("Login successful:", data);
+
+        // Get session token
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        const token = session?.access_token;
+
+        console.log("Token:", token ? "Found" : "Not found");
+        console.log("Fetching profile from:", `${CONFIG.API_BASE_URL}/api/users/profile`);
+
+        // Fetch user role from backend
+        const res = await fetch(`${CONFIG.API_BASE_URL}/api/users/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        console.log("Profile response status:", res.status);
+
+        if (!res.ok) {
+          const errorText = await res.text();
+          console.error("Profile fetch error:", errorText);
+          alert("Failed to fetch user profile: " + errorText);
+          setLoading(false);
+          return;
+        }
+
+        const profile = await res.json();
+        console.log("PROFILE RESPONSE:", profile);
+        
+        if (!profile.user) {
+          console.error("User not found in database:", profile.error);
+          alert("Account not fully set up. Please contact support.");
+          setLoading(false);
+          return;
+        }
+        
+        console.log("ROLE:", profile.user.role);
+
+        // Redirect based on role
+        if (profile.user.role === "superadmin" || profile.user.role === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/dashboard");
+        }
       }
+    } catch (err: any) {
+      console.error("Unexpected error:", err);
+      alert("Unexpected error: " + err.message);
     }
 
     setLoading(false);
