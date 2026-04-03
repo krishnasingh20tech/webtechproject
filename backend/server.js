@@ -99,10 +99,18 @@ app.post("/api/payment/webhook", express.raw({ type: "application/json" }), asyn
 app.use(express.json());
 
 // Main logical routes for interacting with Database
+// Main logical routes for interacting with Database
 app.use("/api/users", usersRoute);
 app.use("/api/uploads", uploadsRoute);
 app.use("/api/admin", adminRoute);
 app.use("/api/payment", stripeRoute);
+
+// Vercel's experimental multi-service router strips the /api prefix. 
+// We add these fallback routes so the backend still catches the requests!
+app.use("/users", usersRoute);
+app.use("/uploads", uploadsRoute);
+app.use("/admin", adminRoute);
+app.use("/payment", stripeRoute);
 
 if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
   const server = app.listen(PORT, () => {
