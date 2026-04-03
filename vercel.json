@@ -1,23 +1,12 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "backend/server.js",
-            "use": "@vercel/node"
+    "experimentalServices": {
+        "frontend": {
+            "routePrefix": "/",
+            "framework": "vite"
         },
-        {
-            "src": "package.json",
-            "use": "@vercel/static-build"
+        "backend": {
+            "entrypoint": "backend",
+            "routePrefix": "/api"
         }
-    ],
-    "rewrites": [
-        {
-            "source": "/api/(.*)",
-            "destination": "/backend/server.js"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
-    ]
+    }
 }
